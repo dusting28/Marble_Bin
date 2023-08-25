@@ -4,10 +4,10 @@ from .models import Note
 from . import db
 import json
 
-views = Blueprint('views', __name__)
+views_home = Blueprint('views_home', __name__)
 
 
-@views.route('/', methods=['GET', 'POST'])
+@views_home.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
     if request.method == 'POST': 
@@ -21,10 +21,10 @@ def home():
             db.session.commit()
             flash('Note added!', category='success')
 
-    return render_template("home.html", user=current_user)
+    return render_template("home.html", user=current_user, active_tab = 'home')
 
 
-@views.route('/delete-note', methods=['POST'])
+@views_home.route('/delete-note', methods=['POST'])
 def delete_note():  
     note = json.loads(request.data) # this function expects a JSON from the INDEX.js file 
     noteId = note['noteId']

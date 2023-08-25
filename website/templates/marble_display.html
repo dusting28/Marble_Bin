@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}Marbles{% endblock %} {% block
+content %}
+
+<select class="form-select scrollable-list">
+  {% for marble in all_marbles %}
+  <option value="{{ marble.Name }}" {% if marble.ID == marble_ID %}selected{% endif %}> {{ marble.Name }} </option>
+  {% endfor %}
+</select>
+
+<form method="POST" action="/marbles/{{marble_ID}}"> 
+  <br />
+  <button type="submit" name="action" value="edit">Edit</button>
+  <button type="submit" name="action" value="newMarble">New Marble</button>
+</form>
+
+<h2>
+{{ selected_marble.Name }}
+</h2>
+
+<img src="{{ url_for('static', filename='uploads/' ~ selected_marble.Image) }}">
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %} {% block title %}Marbles{% endblock %} {% block
+content %}
+<form method="POST" action="/edit_marble/{{marble.ID}}" enctype="multipart/form-data">
+  <h3 align="center">Input Marble Specifications</h3>
+  <div class="form-group">
+    <label for="name">Marble Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Enter marble name"
+      value="{{ marble.Name }}"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="team">Team:</label> 
+    <select name="team" id="team">
+      {% if marble.Team == 'I'%}
+      <option value="I" selected></option>
+      {% else %}
+      <option value="I"></option> 
+      {% endif %}
+      
+      {% if marble.Team == 'R'%}
+      <option value="R" selected>R</option>
+      {% else %}
+      <option value="R">R</option> 
+      {% endif %} 
+
+      {% if marble.Team == 'U'%}
+      <option value="U" selected>U</option>
+      {% else %}
+      <option value="U">U</option> 
+      {% endif %} 
+
+      {% if marble.Team == 'J'%}
+      <option value="J" selected>J</option>
+      {% else %}
+      <option value="J">J</option> 
+      {% endif %} 
+
+      {% if marble.Team == 'A'%}
+      <option value="A" selected>A</option>
+      {% else %}
+      <option value="A">A</option> 
+      {% endif %} 
+
+      {% if marble.Team == 'D'%}
+      <option value="D" selected>D</option>
+      {% else %}
+      <option value="D">D</option> 
+      {% endif %} 
+
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="cheat"> Cheat?</label><br>
+    <input 
+      type="checkbox"
+      class="form-control" 
+      id="cheat" 
+      name="cheat" {% if marble.Cheat %}checked{% endif %} 
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="weight">Marble Weight:</label>
+    <input
+      type="number"
+      class="form-control"
+      min = "0"
+      id="weight"
+      name="weight"
+      placeholder="in milligrams"
+      value="{{ marble.Weight }}"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="diameter1">Major Diameter:</label>
+    <input
+      type="number"
+      class="form-control"
+      min = "0"
+      max = "1000"
+      id="diameter1"
+      name="diameter1"
+      placeholder="in thous"
+      value="{{ marble.Diameter1 }}"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="diameter2">Minor Diameter</label>
+    <input
+      type="number"
+      class="form-control"
+      min = "0"
+      max = "1000"
+      id="diameter2"
+      name="diameter2"
+      placeholder="in thous"
+      value="{{ marble.Diameter2 }}"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="image">Upload an image:</label>
+    <input 
+    type="file" 
+    class="form-control-file" 
+    id="image" 
+    name="image"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="timeTrial">Upload time trial data:</label>
+    <input 
+    type="file" 
+    class="form-control-file" 
+    id="timeTrial" 
+    name="timeTrial"
+    >
+  </div>
+
+  <br />
+  <button type="submit" name="action" value="save">Save</button>
+  <button type="submit" name="action" value="delete">Delete</button>
+  <button type="submit" name="action" value="cancel">Cancel</button>
+
+</form>
+{% endblock %}
