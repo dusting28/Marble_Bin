@@ -21,6 +21,7 @@ class TournamentResult(db.Model):
     Tournament_ID = db.Column(db.Integer, db.ForeignKey('big_tournament.ID'))
     Team = db.Column(db.String(1))
     Group = db.Column(db.String(1))
+    Group_Row = db.Column(db.Integer)
     Race1 = db.Column(db.Integer)
     Race2 = db.Column(db.Integer)
     Race3 = db.Column(db.Integer)

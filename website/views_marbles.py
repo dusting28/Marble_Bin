@@ -9,6 +9,8 @@ views_marbles = Blueprint('views_marbles', __name__)
 @views_marbles.route('/receive_selected_value', methods=['POST'])
 def receive_selected_value():
     marble_name = request.form['selected_value']
+    marble_name = marble_name.split(">", 1)
+    marble_name = marble_name[1][1:]
     selected_marble = Marble.query.filter_by(Name = marble_name).first()
     
     if selected_marble:
@@ -25,7 +27,6 @@ def marble_display(marble_ID):
         db.session.add(default_marble)
         db.session.commit()
 
-    print(marble_ID)
     existing_new_marble = Marble.query.filter_by(Name = "New Marble").first()
     if existing_new_marble:
         db.session.delete(existing_new_marble)
@@ -53,7 +54,7 @@ def marble_display(marble_ID):
             db.session.commit()
             return redirect(url_for('views_marbles.marble_edit',selected_ID = new_marble.ID))
 
-    return render_template("marble_display.html", user=current_user, all_marbles = all_marbles, marble_ID = marble_ID, selected_marble = selected_marble, active_tab = 'marbles')
+    return render_template("marble_display.html", user=current_user, all_marbles = all_marbles, marble_ID = marble_ID, selected_marble = selected_marble, template_ID = "marbles_select", active_tab = 'marbles')
 
 
 @views_marbles.route('/edit_marble/<int:selected_ID>', methods=['GET', 'POST'])

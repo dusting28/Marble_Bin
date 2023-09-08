@@ -1,7 +1,8 @@
 $(document).ready(function () {
-  $('.scrollable-list').on('change', function () {
-    const selectedValue = $(this).val();
-    console.log('Selected value:', selectedValue);
+  $('.selectpicker').selectpicker();
+
+  $('#marbles_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+    var selectedValue = $(this).find('option').eq(clickedIndex).val();
     
     // Use the selectedValue in your logic
     $.ajax({
@@ -12,5 +13,6 @@ $(document).ready(function () {
         window.location.href = response.redirect_url;
       }
     });
-  });
+
+  });;
 });
