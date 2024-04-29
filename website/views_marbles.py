@@ -17,8 +17,6 @@ def receive_selected_value():
         response_data = {'redirect_url': url_for('views_marbles.marble_display', marble_ID = selected_marble.ID)}
         return jsonify(response_data)
 
-    
-
 @views_marbles.route('/marbles/<int:marble_ID>', methods=['GET', 'POST'])
 def marble_display(marble_ID):
 
@@ -36,6 +34,7 @@ def marble_display(marble_ID):
     selected_marble = Marble.query.filter_by(ID = marble_ID).first()
 
     action = request.form.get('action')
+
     # Edit Marble Button
     if action == 'edit':
         if selected_marble and selected_marble.ID > 1:
@@ -55,7 +54,6 @@ def marble_display(marble_ID):
             return redirect(url_for('views_marbles.marble_edit',selected_ID = new_marble.ID))
 
     return render_template("marble_display.html", user=current_user, all_marbles = all_marbles, marble_ID = marble_ID, selected_marble = selected_marble, template_ID = "marbles_select", active_tab = 'marbles')
-
 
 @views_marbles.route('/edit_marble/<int:selected_ID>', methods=['GET', 'POST'])
 @login_required
