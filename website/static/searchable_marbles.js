@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $('.selectpicker').selectpicker();
 
-  $('#marbles_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+  $('#marbles').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
     var selectedValue = $(this).find('option').eq(clickedIndex).val();
     
     // Use the selectedValue in your logic

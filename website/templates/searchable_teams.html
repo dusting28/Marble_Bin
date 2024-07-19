@@ -1,0 +1,40 @@
+
+{% macro team_select(template_ID) %}
+<select 
+  id = "{{template_ID}}" 
+  class="selectpicker"  
+  data-live-search="false" 
+  data-size="7"
+  data-style = "color_I"
+  >
+    <option 
+      value="I"
+      class="color_I"
+    >&nbsp;</option>
+    <option 
+      value="R"
+      class="color_R"
+    >R</option>
+    <option 
+      value="U"
+      class="color_U"
+    >U</option> 
+    <option 
+      value="J"
+      class="color_J"
+    >J</option> 
+    <option 
+      value="A"
+      class="color_A"
+    >A</option> 
+    <option 
+      value="D"
+      class="color_D"
+    >D</option>
+    <option 
+      value="C"
+      class="color_C"
+    >C</option>
+  </select>
+
+{% endmacro %}

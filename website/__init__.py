@@ -16,10 +16,12 @@ def create_app():
     from .views_home import views_home
     from .views_auth import views_auth
     from .views_marbles import views_marbles
+    from .views_tournaments import views_tournaments
 
     app.register_blueprint(views_home, url_prefix='/')
     app.register_blueprint(views_auth, url_prefix='/')
     app.register_blueprint(views_marbles, url_prefix='/')
+    app.register_blueprint(views_tournaments, url_prefix='/')
 
     from .models import User
     

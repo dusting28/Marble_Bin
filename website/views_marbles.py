@@ -8,14 +8,10 @@ views_marbles = Blueprint('views_marbles', __name__)
 
 @views_marbles.route('/receive_selected_value', methods=['POST'])
 def receive_selected_value():
-    marble_name = request.form['selected_value']
-    marble_name = marble_name.split(">", 1)
-    marble_name = marble_name[1][1:]
-    selected_marble = Marble.query.filter_by(Name = marble_name).first()
-    
-    if selected_marble:
-        response_data = {'redirect_url': url_for('views_marbles.marble_display', marble_ID = selected_marble.ID)}
-        return jsonify(response_data)
+    marble_ID= request.form['selected_value']
+    print(marble_ID)
+    response_data = {'redirect_url': url_for('views_marbles.marble_display', marble_ID = marble_ID)}
+    return jsonify(response_data)
 
 @views_marbles.route('/marbles/<int:marble_ID>', methods=['GET', 'POST'])
 def marble_display(marble_ID):
@@ -30,7 +26,19 @@ def marble_display(marble_ID):
         db.session.delete(existing_new_marble)
         db.session.commit()
 
+    # Make own function for sorting marbles
     all_marbles = Marble.query.all()
+    custom_team_order = ['R', 'U', 'J', 'A', 'D', 'I']
+    sorted_marbles = sorted(
+            all_marbles,
+            key=lambda x: (x.Cheat, custom_team_order.index(x.Team))
+        )
+    sorted_marbles = sorted(sorted_marbles, key=lambda x: x.Team == 'I')
+    marble_id_1 = next((marble for marble in sorted_marbles if marble.ID == 1), None)
+    if marble_id_1:
+        sorted_marbles.remove(marble_id_1)
+        sorted_marbles.insert(0, marble_id_1)
+
     selected_marble = Marble.query.filter_by(ID = marble_ID).first()
 
     action = request.form.get('action')
@@ -53,7 +61,7 @@ def marble_display(marble_ID):
             db.session.commit()
             return redirect(url_for('views_marbles.marble_edit',selected_ID = new_marble.ID))
 
-    return render_template("marble_display.html", user=current_user, all_marbles = all_marbles, marble_ID = marble_ID, selected_marble = selected_marble, template_ID = "marbles_select", active_tab = 'marbles')
+    return render_template("marble_display.html", user=current_user, all_marbles = sorted_marbles, selected_marble = selected_marble, template_ID = "marbles_select", active_tab = 'marbles')
 
 @views_marbles.route('/edit_marble/<int:selected_ID>', methods=['GET', 'POST'])
 @login_required
@@ -88,10 +96,10 @@ def marble_edit(selected_ID):
             flash('Marble name already exists.', category='error')
         elif name == "New Marble":
             flash('Give the marble a different name.', category='error')
-        elif len(name) > 30:
-            flash('Name must be 30 characters or less.', category='error')
-        elif diameter2 < diameter1:
-            flash('Minor diameter cannot be less than major diameter.', category='error')
+        elif len(name) > 25:
+            flash('Name must be 25 characters or less.', category='error')
+        elif diameter2 > diameter1:
+            flash('Major diameter cannot be less than minor diameter.', category='error')
         elif not(('.' in image.filename) and (image.filename.rsplit('.', 1)[1].lower() == "png")) and not(image.filename==""):
             flash('Image must be a PNG file.', category='error')
         elif not(('.' in timeTrial.filename) and (timeTrial.filename.rsplit('.', 1)[1].lower() == "csv")) and not(timeTrial.filename==""):
@@ -136,4 +144,4 @@ def marble_edit(selected_ID):
         db.session.commit()
         return redirect(url_for('views_marbles.marble_display', marble_ID = 1))
 
-    return render_template("marble_edit.html", user=current_user, marble=selected_marble, active_tab = 'marbles')
+    return render_template("marble_edit.html", user=current_user, marble=selected_marble, form_data=request.form, active_tab = 'marbles')

@@ -10,44 +10,44 @@ content %}
       id="name"
       name="name"
       placeholder="Enter marble name"
-      value="{{ marble.Name }}"
+      value="{{ form_data['name'] if form_data else marble.Name }}"
     />
   </div>
 
   <div class="form-group">
     <label for="team">Team:</label> 
     <select name="team" id="team">
-      {% if marble.Team == 'I'%}
+      {% if form_data and form_data['team'] == 'I' or marble.Team == 'I'%}
       <option value="I" selected></option>
       {% else %}
       <option value="I"></option> 
       {% endif %}
       
-      {% if marble.Team == 'R'%}
+      {% if form_data and form_data['team'] == 'R' or marble.Team == 'R'%}
       <option value="R" selected>R</option>
       {% else %}
       <option value="R">R</option> 
       {% endif %} 
 
-      {% if marble.Team == 'U'%}
+      {% if form_data and form_data['team'] == 'U' or marble.Team == 'U'%}
       <option value="U" selected>U</option>
       {% else %}
       <option value="U">U</option> 
       {% endif %} 
 
-      {% if marble.Team == 'J'%}
+      {% if form_data and form_data['team'] == 'J' or marble.Team == 'J'%}
       <option value="J" selected>J</option>
       {% else %}
       <option value="J">J</option> 
       {% endif %} 
 
-      {% if marble.Team == 'A'%}
+      {% if form_data and form_data['team'] == 'A' or marble.Team == 'A'%}
       <option value="A" selected>A</option>
       {% else %}
       <option value="A">A</option> 
       {% endif %} 
 
-      {% if marble.Team == 'D'%}
+      {% if form_data and form_data['team'] == 'D' or marble.Team == 'D'%}
       <option value="D" selected>D</option>
       {% else %}
       <option value="D">D</option> 
@@ -62,7 +62,7 @@ content %}
       type="checkbox"
       class="form-control" 
       id="cheat" 
-      name="cheat" {% if marble.Cheat %}checked{% endif %} 
+      name="cheat" {% if form_data and form_data.get('cheat') == 'on' or not form_data and marble.Cheat %}checked{% endif %}
     />
   </div>
 
@@ -75,7 +75,7 @@ content %}
       id="weight"
       name="weight"
       placeholder="in milligrams"
-      value="{{ marble.Weight }}"
+      value="{{ form_data['weight'] if form_data else marble.Weight }}"
     />
   </div>
 
@@ -89,7 +89,7 @@ content %}
       id="diameter1"
       name="diameter1"
       placeholder="in thous"
-      value="{{ marble.Diameter1 }}"
+      value="{{ form_data['diameter1'] if form_data else marble.Diameter1 }}"
     />
   </div>
 
@@ -103,7 +103,7 @@ content %}
       id="diameter2"
       name="diameter2"
       placeholder="in thous"
-      value="{{ marble.Diameter2 }}"
+      value="{{ form_data['diameter2'] if form_data else marble.Diameter2 }}"
     />
   </div>
 

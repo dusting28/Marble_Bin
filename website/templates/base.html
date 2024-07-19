@@ -23,6 +23,29 @@
 
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='Icon.png') }}">
 
+    <style>
+      .image-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 25px;  /* Fixed size container */
+          height: 25px; /* Fixed size container */
+          overflow: hidden;
+      }
+      .image-container img {
+          max-width: 100%;
+          max-height: 100%;
+      }
+      .dropdown-item {
+          display: flex;
+          align-items: center;
+          padding: 0;
+      }
+      .dropdown-item span {
+          margin-left: 1px;
+      }
+    </style>
+
     <title>{% block title %}Home{% endblock %}</title>
   </head>
   <body>
@@ -39,6 +62,7 @@
         <div class="navbar-nav">
           <a class="nav-item nav-link {% if active_tab == 'home' %}active{% endif %}" href="/">Home</a>
           <a class="nav-item nav-link {% if active_tab == 'marbles' %}active{% endif %}" href="/marbles/1">Marbles</a>
+          <a class="nav-item nav-link {% if active_tab == 'tournaments' %}active{% endif %}" href="/tournaments/1">Tournaments</a>
           {% if user.is_authenticated %}
             <a class="nav-item nav-link {% if active_tab == 'logout' %}active{% endif %}" href="/logout">Logout</a>
           {% else %}
@@ -91,6 +115,7 @@
 
     <script src="{{url_for('static',filename='index.js')}}"></script>
     <script src="{{ url_for('static', filename='searchable_marbles.js') }}"></script>
+    <script src="{{ url_for('static', filename='searchable_teams.js') }}"></script>
 
   </body>
 </html>

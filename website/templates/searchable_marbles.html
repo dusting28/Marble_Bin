@@ -1,69 +1,45 @@
+
+{% macro marble_select(template_ID, all_marbles, selected_ID, color) %}
 <select 
   id = "{{template_ID}}" 
   class="selectpicker"  
   data-live-search="true" 
   data-size="5"
-  {% if selected_marble.Cheat %}
-  data-style="color_C"
-  {% else %}
-  {% if selected_marble.Team == "R" %}
-  data-style="color_R"
-  {% elif selected_marble.Team == "U" %}
-  data-style="color_U"
-  {% elif selected_marble.Team == "J" %}
-  data-style="color_J"
-  {% elif selected_marble.Team == "A" %}
-  data-style="color_A"
-  {% elif selected_marble.Team == "D" %}
-  data-style="color_D"
-  {% else %}
-  data-style="color_I"
-  {% endif %}
-  {% endif %}
+  data-style = "{{color}}"
   >
   {% for marble in all_marbles %}
   <option 
-    data-icon="{{ url_for('static', filename='uploads/' ~ selected_marble.Image) }}" 
-    data-content="<img src='{{ url_for('static', filename='uploads/' ~ marble.Image) }}' style='width: 20px;'> {{ marble.Name }}"
-    value="<img src='{{ url_for('static', filename='uploads/' ~ marble.Image) }}' style='width: 20px;'> {{ marble.Name }}" {% if marble.ID == marble_ID %}selected{% endif %}
-    {% if marble.ID == marble_ID %}
+  data-content="<div class='dropdown-item'>
+    <div class='image-container' style='width: {{ 25 }}px; height: {{ 25 }}px;'>
+        <img src='{{ url_for('static', filename='uploads/' ~ marble.Image) }}' style='width: {{(marble.Diameter1+marble.Diameter2)/65}}px; height: {{(marble.Diameter1+marble.Diameter2)/65}}px'>
+      </div>
+      <span>{{ marble.Name }}</span>
+    </div>"
+    
+    value={{marble.ID}}
+    
+    {% if marble.ID == selected_ID %}selected{% endif %}
+
     {% if marble.Cheat %}
-    style="background-color: rgb(219, 206, 87); font-weight: bold;"
+    class="color_C"
     {% else %}
     {% if marble.Team == "R" %}
-    style="background-color: rgb(148, 191, 255); font-weight: bold;"
+    class="color_R"
     {% elif marble.Team == "U" %}
-    style="background-color: rgb(255, 187, 178); font-weight: bold;"
+    class="color_U"
     {% elif marble.Team == "J" %}
-    style="background-color: rgb(128, 197, 139); font-weight: bold;"
+    class="color_J"
     {% elif marble.Team == "A" %}
-    style="background-color: rgb(222, 152, 255); font-weight: bold;"
+    class="color_A"
     {% elif marble.Team == "D" %}
-    style="background-color: rgb(204, 165, 121); font-weight: bold;"
+    class="color_D"
     {% else %}
-    style="background-color: rgb(185, 185, 185); font-weight: bold;"
-    {% endif %}
-    {% endif %}
-    {% else %}
-    {% if marble.Cheat %}
-    style="background-color: rgb(219, 206, 87);"
-    {% else %}
-    {% if marble.Team == "R" %}
-    style="background-color: rgb(148, 191, 255);"
-    {% elif marble.Team == "U" %}
-    style="background-color: rgb(255, 187, 178);"
-    {% elif marble.Team == "J" %}
-    style="background-color: rgb(128, 197, 139);"
-    {% elif marble.Team == "A" %}
-    style="background-color: rgb(222, 152, 255);"
-    {% elif marble.Team == "D" %}
-    style="background-color: rgb(204, 165, 121);"
-    {% else %}
-    style="background-color: rgb(185, 185, 185);"
-    {% endif %}
+    class="color_I"
     {% endif %}
     {% endif %}
     >
   </option>
   {% endfor %}
 </select>
+
+{% endmacro %}

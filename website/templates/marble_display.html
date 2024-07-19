@@ -9,9 +9,26 @@ content %}
         Marble Selection:
       </h2>
 
-      {% include 'searchable_marbles.html'%}      
+      {% import 'searchable_marbles.html' as macros %}
+      {% if selected_marble.Cheat %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_C") }}  
+      {% else %}
+      {% if selected_marble.Team == "R" %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_R") }} 
+      {% elif selected_marble.Team == "U" %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_U") }} 
+      {% elif selected_marble.Team == "J" %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_J") }} 
+      {% elif selected_marble.Team == "A" %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_A") }} 
+      {% elif selected_marble.Team == "D" %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_D") }} 
+      {% else %}
+      {{ macros.marble_select("marbles", all_marbles, selected_marble.ID, "color_I") }} 
+      {% endif %}
+      {% endif %}
 
-      <form method="POST" action="/marbles/{{marble_ID}}"> 
+      <form method="POST" action="/marbles/{{selected_marble.ID}}"> 
         <br />
         <button type="submit" name="action" value="edit">Edit</button>
         <button type="submit" name="action" value="newMarble">New Marble</button>
@@ -31,12 +48,30 @@ content %}
     </div>
 
     <div class="col-md-4 border-right border-left" >
-        <div class="card">
-            <div class="card-body">
-                <!-- Content for Column 2 -->
-                Column 2
-            </div>
-        </div>
+      <h2>
+        Weight:
+        {% if selected_marble.Weight > 0%}
+        {{(selected_marble.Weight/1000)|round(3)}} g
+        {% endif %}
+      </h2>
+      <h2>
+        Diameter:
+        {% if selected_marble.Diameter1 > 0%}
+        {{ ((selected_marble.Diameter1+selected_marble.Diameter2)/2000)|round(4)}}"
+        {% endif %}
+      </h2>
+      <h2>
+        Sphericity:
+        {% if selected_marble.Diameter1 > 0%}
+        {{(100*selected_marble.Diameter2/selected_marble.Diameter1)|round(1)}}%
+        {% endif %}
+      </h2>
+      <h2>
+        Density:
+        {% if selected_marble.Diameter1 > 0%}
+        {{(((4/3)*3.141593*selected_marble.Weight/(2.54*(selected_marble.Diameter1+selected_marble.Diameter2)/2000)**3)/1000)|round(2)}} kg/cm<sup>3</sup>
+        {% endif %}
+      </h2>
     </div>
       
   </div>

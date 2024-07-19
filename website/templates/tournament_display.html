@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block title %}Tournaments{% endblock %} {% block
+content %}
+
+{% import 'searchable_marbles.html' as marble_macros %}
+{% import 'searchable_teams.html' as team_macros %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="row">
+      <div class="col-md-4 border-right border-left bg-success text-white text-center fixed-top"></div>
+        List Number:
+        Tournament Number:
+    </div>
+    <h1>Group A</h1>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>Name</th>
+            <th>R1</th>
+            <th>R2</th>
+            <th>R3</th>
+            <th>R4</th>
+            <th>T</th>
+            <th>1st</th>
+            <th>2nd</th>
+        </tr>
+        {% for iter1 in range(1, 5) %}
+        <tr>
+            <td>
+              {{ team_macros.team_select('team-select-' ~ iter1) }}
+            </td>
+            <td id="marble-select-container-{{ iter1 }}">
+              {{ marble_macros.marble_select('marble-select-' ~ iter1, all_marbles, 1, "color_C") }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}

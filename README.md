@@ -4,6 +4,19 @@
 
 Make sure you have the latest version of Python installed.
 
+## Database Migration
+```bash
+alembic revision --autogenerate -m "INSERT COMMENT HERE"
+alembic upgrade head
+```
+
+# View Components of Database
+```bash
+sqlite3 instance/database.db
+.tables
+SELECT * FROM Marble;
+```
+
 ```bash
 git clone <repo-url>
 ```
